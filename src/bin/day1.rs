@@ -10,9 +10,36 @@ impl AocSolution for Solution {
     }
 
     fn part1(&self, input: &str) -> u64 {
+        let mut list_1 = Vec::new();
+        let mut list_2 = Vec::new();
+
         input
             .lines()
             .map(|line| {
+                if line.is_empty() {
+                    return 0;
+                }
+
+                // Split the line by 4 spaces
+                let values = line.split("   ").collect::<Vec<&str>>();
+
+                // Get the first and last values
+                let first = values[0].parse::<i32>().unwrap();
+                let last = values.last().unwrap().parse::<i32>().unwrap();
+
+                list_1.push(first);
+                list_2.push(last);
+
+                let mut res = 0;
+                if first > last {
+                    res = first - last;
+                } else {
+                    res = last - first;
+                }
+
+                println!("RES: {}", res);
+
+                /*
                 let first = line
                     .chars()
                     .find(|c| c.is_numeric())
@@ -24,10 +51,10 @@ impl AocSolution for Solution {
                     .find(|c| c.is_numeric())
                     .and_then(|c| c.to_digit(10))
                     .unwrap();
-
-                first * 10 + last
+                */
+                res
             })
-            .sum::<u32>() as u64
+            .sum::<i32>() as u64
     }
 
     fn part2(&self, input: &str) -> u64 {

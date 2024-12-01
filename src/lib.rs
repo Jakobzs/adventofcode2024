@@ -1,8 +1,7 @@
-use std::path::PathBuf;
-
 use anyhow::Result;
 use clap::Parser;
 use reqwest::Client;
+use std::path::PathBuf;
 
 pub trait AocSolution {
     const DAY: u8;

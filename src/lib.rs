@@ -8,8 +8,8 @@ pub trait AocSolution {
     fn new() -> Self
     where
         Self: Sized;
-    fn part1(&self, input: &str) -> u64;
-    fn part2(&self, input: &str) -> u64;
+    fn part1<T: AsRef<str>>(&self, input: T) -> u64;
+    fn part2<T: AsRef<str>>(&self, input: T) -> u64;
 }
 
 #[derive(Parser)]

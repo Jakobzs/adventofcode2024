@@ -10,7 +10,7 @@ impl AocSolution for Solution {
         Self
     }
 
-    fn part1(&self, input: &str) -> u64 {
+    fn part1<T: AsRef<str>>(&self, input: T) -> u64 {
         // Get the lists of numbers from the input
         let (mut left_list, mut right_list) = get_lists(input);
 
@@ -28,7 +28,7 @@ impl AocSolution for Solution {
         total_distance as u64
     }
 
-    fn part2(&self, input: &str) -> u64 {
+    fn part2<T: AsRef<str>>(&self, input: T) -> u64 {
         let (left_list, right_list) = get_lists(input);
 
         // Create a frequency map for the right list
@@ -49,11 +49,11 @@ impl AocSolution for Solution {
     }
 }
 
-fn get_lists(input: &str) -> (Vec<i32>, Vec<i32>) {
+fn get_lists<T: AsRef<str>>(input: T) -> (Vec<i32>, Vec<i32>) {
     let mut left_list = Vec::new();
     let mut right_list = Vec::new();
 
-    for line in input.lines() {
+    for line in input.as_ref().lines() {
         let values = line.split("   ").collect::<Vec<&str>>();
 
         let first = values[0].parse::<i32>().unwrap();

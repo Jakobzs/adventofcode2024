@@ -19,16 +19,21 @@ struct Cli {
 }
 
 async fn get_input(day: u8) -> Result<String> {
+    // Get the path to the input file.
     let path = PathBuf::from(format!("input/day{day:02}.txt"));
 
+    // Create the directory if it doesn't exist.
     tokio::fs::create_dir_all(path.parent().unwrap()).await?;
 
+    // Check if the file exists and return its contents if it does.
     if tokio::fs::try_exists(&path).await? {
         return Ok(tokio::fs::read_to_string(&path).await?);
     }
 
+    // Get the session cookie which is stored in a file called `.cookie`.
     let cookie = include_str!("../.cookie").trim();
 
+    // Download the input from the Advent of Code website.
     let body = Client::new()
         .get(format!("https://adventofcode.com/2024/day/{day}/input"))
         .header("Cookie", cookie)
@@ -37,6 +42,7 @@ async fn get_input(day: u8) -> Result<String> {
         .text()
         .await?;
 
+    // Write the input to the file.
     tokio::fs::write(path, &body).await?;
 
     Ok(body)

@@ -40,7 +40,7 @@ impl AocSolution for Solution {
         // Calculate the similarity score
         let mut similarity_score = 0;
         for num in &left_list {
-            if let Some(&count) = right_frequency.get(&num) {
+            if let Some(count) = right_frequency.get(&num) {
                 similarity_score += num * count;
             }
         }

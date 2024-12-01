@@ -50,19 +50,14 @@ impl AocSolution for Solution {
 }
 
 fn get_lists<T: AsRef<str>>(input: T) -> (Vec<i32>, Vec<i32>) {
-    let mut left_list = Vec::new();
-    let mut right_list = Vec::new();
-
-    for line in input.as_ref().lines() {
-        let values = line.split("   ").collect::<Vec<&str>>();
-
-        let first = values[0].parse::<i32>().unwrap();
-        let last = values[1].parse::<i32>().unwrap();
-
-        left_list.push(first);
-        right_list.push(last);
-    }
-    (left_list, right_list)
+    input
+        .as_ref()
+        .lines()
+        .map(|line| {
+            let mut values = line.split("   ").map(|v| v.parse::<i32>().unwrap());
+            (values.next().unwrap(), values.next().unwrap())
+        })
+        .unzip()
 }
 
 adventofcode2024::run!(Solution);

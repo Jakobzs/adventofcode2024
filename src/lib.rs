@@ -20,7 +20,7 @@ struct Cli {
 }
 
 async fn get_input(day: u8) -> Result<String> {
-    let path = PathBuf::from(format!("../input/day{day:02}.txt"));
+    let path = PathBuf::from(format!("input/day{day:02}.txt"));
 
     tokio::fs::create_dir_all(path.parent().unwrap()).await?;
 
@@ -28,10 +28,10 @@ async fn get_input(day: u8) -> Result<String> {
         return Ok(tokio::fs::read_to_string(&path).await?);
     }
 
-    let cookie = include_str!("../../.cookie").trim();
+    let cookie = include_str!("../.cookie").trim();
 
     let body = Client::new()
-        .get(format!("https://adventofcode.com/2023/day/{day}/input"))
+        .get(format!("https://adventofcode.com/2024/day/{day}/input"))
         .header("Cookie", cookie)
         .send()
         .await?
@@ -59,7 +59,7 @@ macro_rules! run {
     ($sol:ty) => {
         #[tokio::main]
         async fn main() {
-            adventofcode2023::run_solution::<$sol>().await;
+            adventofcode2024::run_solution::<$sol>().await;
         }
     };
 }

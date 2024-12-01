@@ -10,11 +10,6 @@ impl AocSolution for Solution {
     }
 
     fn part1(&self, input: &str) -> u64 {
-        const INPUT: &str = r#"1   2
-3   4
-5   6
-"#;
-
         let mut left_list = Vec::new();
         let mut right_list = Vec::new();
 

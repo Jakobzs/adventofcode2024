@@ -10,51 +10,38 @@ impl AocSolution for Solution {
     }
 
     fn part1(&self, input: &str) -> u64 {
-        let mut list_1 = Vec::new();
-        let mut list_2 = Vec::new();
+        const INPUT: &str = r#"1   2
+3   4
+5   6
+"#;
 
-        input
-            .lines()
-            .map(|line| {
-                if line.is_empty() {
-                    return 0;
-                }
+        let mut left_list = Vec::new();
+        let mut right_list = Vec::new();
 
-                // Split the line by 4 spaces
-                let values = line.split("   ").collect::<Vec<&str>>();
+        for line in input.lines() {
+            let values = line.split("   ").collect::<Vec<&str>>();
 
-                // Get the first and last values
-                let first = values[0].parse::<i32>().unwrap();
-                let last = values.last().unwrap().parse::<i32>().unwrap();
+            let first = values[0].parse::<i32>().unwrap();
+            let last = values[1].parse::<i32>().unwrap();
 
-                list_1.push(first);
-                list_2.push(last);
+            left_list.push(first);
+            right_list.push(last);
+        }
 
-                let mut res = 0;
-                if first > last {
-                    res = first - last;
-                } else {
-                    res = last - first;
-                }
+        // Sort the lists.
+        left_list.sort();
+        right_list.sort();
 
-                println!("RES: {}", res);
+        // Iterate over the lists and subtract the element from list 2 from list 1
+        let total_distance: i32 = left_list
+            .iter()
+            .zip(right_list.iter())
+            .map(|(left, right)| (left - right).abs())
+            .sum();
 
-                /*
-                let first = line
-                    .chars()
-                    .find(|c| c.is_numeric())
-                    .and_then(|c| c.to_digit(10))
-                    .unwrap();
-                let last = line
-                    .chars()
-                    .rev()
-                    .find(|c| c.is_numeric())
-                    .and_then(|c| c.to_digit(10))
-                    .unwrap();
-                */
-                res
-            })
-            .sum::<i32>() as u64
+        println!("Total distance: {}", total_distance);
+
+        123
     }
 
     fn part2(&self, input: &str) -> u64 {

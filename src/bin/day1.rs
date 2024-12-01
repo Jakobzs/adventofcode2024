@@ -11,18 +11,8 @@ impl AocSolution for Solution {
     }
 
     fn part1(&self, input: &str) -> u64 {
-        let mut left_list = Vec::new();
-        let mut right_list = Vec::new();
-
-        for line in input.lines() {
-            let values = line.split("   ").collect::<Vec<&str>>();
-
-            let first = values[0].parse::<i32>().unwrap();
-            let last = values[1].parse::<i32>().unwrap();
-
-            left_list.push(first);
-            right_list.push(last);
-        }
+        // Get the lists of numbers from the input
+        let (mut left_list, mut right_list) = get_lists(input);
 
         // Sort the lists.
         left_list.sort();
@@ -35,24 +25,11 @@ impl AocSolution for Solution {
             .map(|(left, right)| (left - right).abs())
             .sum();
 
-        println!("Total distance: {}", total_distance);
-
-        123
+        total_distance as u64
     }
 
     fn part2(&self, input: &str) -> u64 {
-        let mut left_list = Vec::new();
-        let mut right_list = Vec::new();
-
-        for line in input.lines() {
-            let values = line.split("   ").collect::<Vec<&str>>();
-
-            let first = values[0].parse::<i32>().unwrap();
-            let last = values[1].parse::<i32>().unwrap();
-
-            left_list.push(first);
-            right_list.push(last);
-        }
+        let (left_list, right_list) = get_lists(input);
 
         // Create a frequency map for the right list
         let mut right_frequency = HashMap::new();
@@ -70,6 +47,22 @@ impl AocSolution for Solution {
 
         similarity_score as u64
     }
+}
+
+fn get_lists(input: &str) -> (Vec<i32>, Vec<i32>) {
+    let mut left_list = Vec::new();
+    let mut right_list = Vec::new();
+
+    for line in input.lines() {
+        let values = line.split("   ").collect::<Vec<&str>>();
+
+        let first = values[0].parse::<i32>().unwrap();
+        let last = values[1].parse::<i32>().unwrap();
+
+        left_list.push(first);
+        right_list.push(last);
+    }
+    (left_list, right_list)
 }
 
 adventofcode2024::run!(Solution);

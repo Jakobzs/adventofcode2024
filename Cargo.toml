@@ -2,10 +2,11 @@
 name = "adventofcode2024"
 version = "0.1.0"
 edition = "2021"
-default-run = "day2"      # Change this to the day you want to run
+default-run = "day3"      # Change this to the day you want to run
 
 [dependencies]
 anyhow = "1"
 reqwest = "0.12"
 tokio = { version = "1", features = ["full"] }
 clap = { version = "4", features = ["derive"] }
+regex = "1"

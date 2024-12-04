@@ -83,13 +83,18 @@ fn count_word_in_grid(grid: &[Vec<char>], word: &str) -> usize {
 }
 
 fn find_x_mas(grid: Vec<Vec<char>>) -> usize {
-    let num_rows = grid.len();
-    let num_cols = grid[0].len();
-    let mut xmas_count: usize = 0;
-
+    // Define the sequences to look for
     const MAS: [char; 3] = ['M', 'A', 'S'];
     const SAM: [char; 3] = ['S', 'A', 'M'];
 
+    // Counter for the number of XMAS found
+    let mut xmas_count: usize = 0;
+
+    // Grab the number of rows and columns in the grid
+    let num_rows = grid.len();
+    let num_cols = grid[0].len();
+
+    // Begin iterating through the grid
     for row in 1..num_rows - 1 {
         for col in 1..num_cols - 1 {
             let seq_1 = [

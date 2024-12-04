@@ -95,18 +95,18 @@ fn find_x_mas(grid: Vec<Vec<char>>) -> usize {
     let num_cols = grid[0].len();
 
     // Begin iterating through the grid
-    for row in 1..num_rows - 1 {
-        for col in 1..num_cols - 1 {
+    for row in 0..num_rows - 2 {
+        for col in 0..num_cols - 2 {
             let seq_1 = [
-                grid[row - 1][col - 1],
                 grid[row][col],
                 grid[row + 1][col + 1],
+                grid[row + 2][col + 2],
             ];
 
             let seq_2 = [
-                grid[row - 1][col + 1],
-                grid[row][col],
-                grid[row + 1][col - 1],
+                grid[row][col + 2],
+                grid[row + 1][col + 1],
+                grid[row + 2][col],
             ];
 
             if (SAM == seq_1 || MAS == seq_1) && (SAM == seq_2 || MAS == seq_2) {

@@ -2,7 +2,7 @@
 name = "adventofcode2024"
 version = "0.1.0"
 edition = "2021"
-default-run = "day3"      # Change this to the day you want to run
+default-run = "day4"      # Change this to the day you want to run
 
 [dependencies]
 anyhow = "1"

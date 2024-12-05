@@ -14,14 +14,13 @@ impl AocSolution for Solution {
     fn part1<T: AsRef<str>>(&self, input: T) -> u64 {
         let (rules, updates) = parse_input(input.as_ref());
 
-        // Validate updates and calculate the result
-        let result = validate_updates(&rules, &updates);
-
-        result as u64
+        validate_updates(&rules, &updates) as u64
     }
 
     fn part2<T: AsRef<str>>(&self, input: T) -> u64 {
-        123
+        let (rules, updates) = parse_input(input.as_ref());
+
+        reorder_updates(&rules, &updates) as u64
     }
 }
 
@@ -60,16 +59,27 @@ fn validate_updates(rules: &HashMap<i32, Vec<i32>>, updates: &[Vec<i32>]) -> i32
     total
 }
 
+fn reorder_updates(rules: &HashMap<i32, Vec<i32>>, updates: &[Vec<i32>]) -> i32 {
+    let mut total = 0;
+
+    for update in updates {
+        if !is_valid_update(rules, update) {
+            let reordered_update = reorder_update(rules, update);
+            let middle_index = reordered_update.len() / 2;
+            total += reordered_update[middle_index];
+        }
+    }
+
+    total
+}
+
 fn is_valid_update(rules: &HashMap<i32, Vec<i32>>, update: &[i32]) -> bool {
-    // Create a set for quick lookup of pages in this update
     let update_set: HashSet<i32> = update.iter().cloned().collect();
 
-    // Check each rule
     for (&from, to_list) in rules {
         if update_set.contains(&from) {
             for &to in to_list {
                 if update_set.contains(&to) {
-                    // Ensure `from` comes before `to` in the update order
                     if update.iter().position(|&x| x == from).unwrap()
                         > update.iter().position(|&x| x == to).unwrap()
                     {
@@ -81,6 +91,20 @@ fn is_valid_update(rules: &HashMap<i32, Vec<i32>>, update: &[i32]) -> bool {
     }
 
     true
+}
+
+fn reorder_update(rules: &HashMap<i32, Vec<i32>>, update: &[i32]) -> Vec<i32> {
+    let mut sorted_update = update.to_vec();
+    sorted_update.sort_by(|a, b| {
+        if rules.contains_key(a) && rules[a].contains(b) {
+            std::cmp::Ordering::Less
+        } else if rules.contains_key(b) && rules[b].contains(a) {
+            std::cmp::Ordering::Greater
+        } else {
+            std::cmp::Ordering::Equal
+        }
+    });
+    sorted_update
 }
 
 adventofcode2024::run!(Solution);
